@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rag-qa-bot"
+version = "0.1.0"
+description = "Document Q&A bot: LangChain + ChromaDB retrieval, Claude generation."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.40",
+    "chromadb>=0.5",
+    "langchain-chroma>=0.1.4",
+    "langchain-core>=0.3",
+    "langchain-huggingface>=0.1",
+    "langchain-text-splitters>=0.3",
+    "pydantic-settings>=2.2",
+    "pypdf>=4.0",
+    "python-docx>=1.1",
+    "sentence-transformers>=3.0",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+rag-bot = "rag_bot.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rag_bot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501"]  # line length is handled by `ruff format`
